@@ -18,8 +18,8 @@ struct TetrisGameView: View {
     }
 
     func drawBoard(boundingRect: CGSize) -> some View {
-        let columns = self.tetrisGame.numberColumns
-        let rows = self.tetrisGame.numberRows
+        let columns = self.tetrisGame.numColumns
+        let rows = self.tetrisGame.numRows
         let blocksize = min(boundingRect.width/CGFloat(columns), boundingRect.height/CGFloat(rows))
         let xoffset = (boundingRect.width - blocksize*CGFloat(columns))/2
         let yoffset = (boundingRect.height - blocksize*CGFloat(rows))/2
