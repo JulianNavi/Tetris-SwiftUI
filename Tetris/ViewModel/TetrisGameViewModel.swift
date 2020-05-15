@@ -12,33 +12,33 @@ import Combine
 
 class TetrisGameViewModel: ObservableObject {
     @Published var tetrisGameModel = TetrisGameModel()
-
+    
     var numRows: Int { tetrisGameModel.numberRows }
     var numColumns: Int { tetrisGameModel.numberColumns }
     var gameBoard: [[TetrisGameSquare]] {
         var board = tetrisGameModel.gameBoard.map { $0.map(convertToSquare) }
-
+        
         if let tetromino = tetrisGameModel.tetromino {
             for blockLocation in tetromino.blocks {
                 board[blockLocation.column + tetromino.origin.column][blockLocation.row + tetromino.origin.row] = TetrisGameSquare(color: getColor(blockType: tetromino.blockType))
             }
         }
-
+        
         return board
     }
     
     var anyCancellable: AnyCancellable?
-
+    
     init() {
         anyCancellable = tetrisGameModel.objectWillChange.sink {
             self.objectWillChange.send()
         }
     }
-
+    
     func convertToSquare(block: TetrisGameBlock?) -> TetrisGameSquare {
         return TetrisGameSquare(color: getColor(blockType: block?.blockType))
     }
-
+    
     func getColor(blockType: BlockType?) -> Color {
         switch blockType {
         case .i:
@@ -59,7 +59,7 @@ class TetrisGameViewModel: ObservableObject {
             return .tetrisBlack
         }
     }
-
+    
     func squareClicked(row: Int, column: Int) {
         tetrisGameModel.blockClicked(row: row, column: column)
     }
